@@ -11,13 +11,13 @@ export class Card {
     render(){
         return `
         <div class="card text-dark bg-light mb-3" style="max-width: 18rem;" draggable="true" id="${this.id}">
-          <button class="delete-btn" id="del-todo"></button>
+        <button type="button" class="btn-close" id="del-todo" aria-label="Close"></button>
           <div class="card-header">${this.title}</div>
           <div class="card-body">
             <h5 class="card-title">${this.text}</h5>
             <p class="card-data">${this.date}</p>
             <button type="button" id="edit-todo" class="btn btn-primary">Edit</button>
-            <button type="button" id="done-todo" class="btn btn-primary">Done</button>
+            <button type="button" id="doing-todo" class="btn btn-success">Doing</button>
           </div>
         </div>
         `;
@@ -77,6 +77,34 @@ export class CardDone extends Card{
   getHtmlDone(){
     document.getElementById('done-list').innerHTML = getStorage('done').map(todo => new CardDone(todo.title, todo.text, todo.id).render()).join(' ')
     document.getElementById('done-counter').textContent = getStorage('done').length
+  }
 }
+
+export class CardDoing extends Card{
+  constructor(title, text, id) {
+      super()
+      this.title = title,
+      this.text = text,
+      this.id = id
+  }
+
+  render(){
+      return `
+      <div class="card text-dark bg-light mb-3" style="max-width: 18rem;" draggable="true" id="${this.id}">
+      <button type="button" class="btn-close" id="del-todo" aria-label="Close"></button>
+        <div class="card-header">${this.title}</div>
+        <div class="card-body">
+          <h5 class="card-title">${this.text}</h5>
+          <p class="card-data">${this.date}</p>
+          <button type="button" id="done-todo" class="btn btn-success">Done</button>
+        </div>
+      </div>
+      `;
+  }
+  
+  getHtml(){
+    document.getElementById('doing-list').innerHTML = getStorage('doing').map(todo => new CardDoing(todo.title, todo.text, todo.id).render()).join(' ')
+    document.getElementById('doing-counter').textContent = getStorage('doing').length
+  }
 
 }
